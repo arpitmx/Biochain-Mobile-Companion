@@ -1,86 +1,69 @@
 package com.bitpolarity.helloapi;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
-import android.widget.Toast;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
+import android.util.Log;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+
 import com.bitpolarity.helloapi.databinding.ActivityMainBinding;
-import android.os.Build.*;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.HashMap;
+import java.util.Map;
 
-import org.json.JSONException;
 
 public class MainActivity extends AppCompatActivity {
 
     ActivityMainBinding binding;
+    FirebaseFirestore db;
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        Animation anim = AnimationUtils.loadAnimation(MainActivity.this, R.anim.rotateinf);
+        binding.doneico.setAnimation(anim);
+
+
         Intent i = getIntent();
-        String midl = i.getExtras().getString("link", "null");
-        String url = "https://" + midl + ".ngrok.io";
+        String uid = i.getExtras().getString("link", "null");
 
+        db = FirebaseFirestore.getInstance();
+        Map<String, Object> userID = new HashMap<>();
+        userID.put("ID",uid);
+        db.collection("uid")
+                .add(userID)
+                .addOnSuccessListener(documentReference -> Log.v("Status ", "Success")).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w("Status ", "Failure");
 
-       requestConnection(url+"/request/?connect="+ Build.DEVICE);
+                    }
+                });
 
-
-        binding.button.setOnClickListener(view -> {
-            String fUrl = url + "/users/?query=" + binding.input.getText().toString();
-            qparse(fUrl);
+        binding.btnscanx.setOnClickListener(view -> {
+            onBackPressed();
         });
     }
 
-        public void qparse(String raw_url){
-        RequestQueue queue = Volley.newRequestQueue(this);
 
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, raw_url, null, response ->  {
-            try {
-               // String Page = response.getString("Page");
-                String Message = response.getString("Message");
-               // String TimeStamp = response.getString("Timestamp");
-                binding.output.append("Teeu > "+Message+"\n");
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-        }, error -> {
-            Toast.makeText(this, error.toString(), Toast.LENGTH_SHORT).show();
-        });
-
-        queue.add(request);
-
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(MainActivity.this, QRActivity.class));
+        finish();
     }
 
 
 
 
-    public void requestConnection(String raw_url){
-        RequestQueue queue = Volley.newRequestQueue(this);
-
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, raw_url, null, response ->  {
-            try {
-                String Message = response.getString("Message");
-                binding.url.append(Message+"\n");
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-        }, error -> {
-            Toast.makeText(this, error.toString(), Toast.LENGTH_SHORT).show();
-        });
-
-        queue.add(request);
-
-    }
 }
 

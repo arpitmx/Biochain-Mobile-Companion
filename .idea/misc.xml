@@ -5,6 +5,12 @@
       <map>
         <entry key="..\:/HelloApi/app/src/main/res/layout/activity_main.xml" value="0.264" />
         <entry key="..\:/HelloApi/app/src/main/res/layout/activity_qractivity.xml" value="0.24427083333333333" />
+        <entry key="..\:/Users/Asus/StudioProjects/HelloApi/app/src/main/res/drawable/roundcorner.xml" value="0.111" />
+        <entry key="..\:/Users/Asus/StudioProjects/HelloApi/app/src/main/res/layout/activity_login.xml" value="0.264" />
+        <entry key="..\:/Users/Asus/StudioProjects/HelloApi/app/src/main/res/layout/activity_main.xml" value="0.264" />
+        <entry key="..\:/Users/Asus/StudioProjects/HelloApi/app/src/main/res/layout/activity_qractivity.xml" value="0.136" />
+        <entry key="..\:/Users/Asus/StudioProjects/HelloApi/app/src/main/res/layout/activity_qrselector.xml" value="0.176" />
+        <entry key="..\:/Users/Asus/StudioProjects/HelloApi/app/src/main/res/layout/activity_splash_screen.xml" value="0.2" />
       </map>
     </option>
   </component>

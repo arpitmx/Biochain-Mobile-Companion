@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">HelloApi</string>
+    <string name="app_name">Biochain Companion</string>
+    <string name="title_activity_maps">MapsActivity</string>
 </resources>
