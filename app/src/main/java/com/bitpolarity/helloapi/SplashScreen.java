@@ -29,7 +29,7 @@ public class SplashScreen extends AppCompatActivity {
 
 
         new Handler().postDelayed(() -> {
-            Intent intent = new Intent(SplashScreen.this, QRSelector.class);
+            Intent intent = new Intent(SplashScreen.this, LoginActivity.class);
             startActivity(intent);
             finish();
         }, Splash_timeout);

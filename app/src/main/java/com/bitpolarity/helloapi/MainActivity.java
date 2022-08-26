@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -24,24 +25,28 @@ public class MainActivity extends AppCompatActivity {
 
     ActivityMainBinding binding;
     FirebaseFirestore db;
+    SharedPreferences sharedPreferences;
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        sharedPreferences = getSharedPreferences("MySharedPref",MODE_PRIVATE);
 
         Animation anim = AnimationUtils.loadAnimation(MainActivity.this, R.anim.rotateinf);
         binding.doneico.setAnimation(anim);
 
 
-        Intent i = getIntent();
-        String uid = i.getExtras().getString("link", "null");
+        Bundle i = getIntent().getExtras();
+        String uid = i.getString("link", "null");
 
         db = FirebaseFirestore.getInstance();
         Map<String, Object> userID = new HashMap<>();
-        userID.put("ID",uid);
+        userID.put("Token",uid);
+        userID.put("Email", sharedPreferences.getString("email","armaxdev@gmail.com"));
         db.collection("uid")
                 .add(userID)
+
                 .addOnSuccessListener(documentReference -> Log.v("Status ", "Success")).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {

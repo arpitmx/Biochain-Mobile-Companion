@@ -29,18 +29,21 @@ public class QRActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityQractivityBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
         CodeScannerView scannerView = findViewById(R.id.scanner_view);
         mCodeScanner = new CodeScanner(this, scannerView);
-
-        binding.close.setOnClickListener(view -> onBackPressed());
         mCodeScanner.setDecodeCallback(result -> runOnUiThread(() -> {
             Toast.makeText(QRActivity.this, result.getText(), Toast.LENGTH_SHORT).show();
             String rawUrl = result.getText();
             Intent intent = new Intent(QRActivity.this, MainActivity.class);
-            intent.putExtra("link", rawUrl);
+            Bundle data1 = new Bundle();
+            data1.putString("link",rawUrl);
+            intent.putExtras(data1);
             startActivity(intent);
         }));
         scannerView.setOnClickListener(view -> mCodeScanner.startPreview());
+        binding.close.setOnClickListener(view -> onBackPressed());
+
     }
 
 

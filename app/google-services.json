@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "8049881255",
+    "project_id": "qrscanner-30503",
+    "storage_bucket": "qrscanner-30503.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:8049881255:android:a83fb3e57179137d852b82",
+        "android_client_info": {
+          "package_name": "com.bitpolarity.helloapi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "8049881255-hpudsp7bn8q78acg2lq41jav01ja0ngd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD2ZG6pQFUYOatdZdH8VBBbtXYWPHnbXwI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "8049881255-hpudsp7bn8q78acg2lq41jav01ja0ngd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

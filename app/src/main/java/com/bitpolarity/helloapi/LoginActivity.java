@@ -3,6 +3,8 @@ package com.bitpolarity.helloapi;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -20,6 +22,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     ActivityLoginBinding binding;
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
 
 
     @Override
@@ -28,19 +32,37 @@ public class LoginActivity extends AppCompatActivity {
         binding= ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         mAuth = FirebaseAuth.getInstance();
+      sharedPreferences = getSharedPreferences("MySharedPref",MODE_PRIVATE);
+      editor = sharedPreferences.edit();
 
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+
+        if(currentUser != null){
+            Intent intent = new Intent(LoginActivity.this, QRSelector.class);
+            startActivity(intent);
+            Toast.makeText(this, "Welcome", Toast.LENGTH_SHORT).show();
+
+            finish();
+        }else {
+            Toast.makeText(this, "Login", Toast.LENGTH_SHORT).show();
+
+        }
     }
 
     @Override
     protected void onStart() {
         super.onStart();
+        binding.LoginBtn.setOnClickListener(view -> Login());
 
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if(currentUser != null){
-            Toast.makeText(this, "Not signed up", Toast.LENGTH_SHORT).show();
-        }else {
-            String email = binding.Email.getText().toString();
-            String password = binding.Password.getText().toString();
+
+    }
+
+
+    void Login(){
+
+        String email = binding.Email.getText().toString();
+        String password = binding.Password.getText().toString();
+
 
             mAuth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this, task -> {
@@ -48,6 +70,13 @@ public class LoginActivity extends AppCompatActivity {
 
                             Log.d("TAG", "createUserWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
+                            editor.putString("email", user.getEmail().toString());
+                            editor.putString("id", user.getUid().toString());
+                            editor.commit();
+                            Toast.makeText(LoginActivity.this, "Welcome",
+                                    Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(LoginActivity.this, QRSelector.class));
+
 
 
                         } else {
@@ -62,11 +91,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
 
-
-
-
-    }
+        }
 }
 
 
-}
